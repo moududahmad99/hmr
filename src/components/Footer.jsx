@@ -3,208 +3,187 @@ import { motion } from 'framer-motion';
 import { Facebook, Instagram, MessageCircle, MapPin, Phone, Mail, ExternalLink, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
+const Footer = ({ isDarkMode }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white pt-20 pb-10 px-6 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Gradient Orbs */}
-        <motion.div
-          className="absolute w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl"
-          style={{ top: '10%', right: '-10%' }}
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [0, 20, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute w-80 h-80 rounded-full bg-teal-500/10 blur-3xl"
-          style={{ bottom: '10%', left: '-10%' }}
-          animate={{
-            scale: [1, 1.3, 1],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
+    <footer className={`relative pt-24 pb-12 px-6 overflow-hidden transition-colors duration-500
+      ${isDarkMode
+        ? 'bg-slate-900 text-white'
+        : 'bg-slate-50 text-slate-800'}`}>
 
-        {/* Floating Sparkles */}
-        {[...Array(8)].map((_, i) => (
+      {/* 3D Background - Round Orbit Type Design */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+        {[...Array(4)].map((_, i) => (
           <motion.div
-            key={i}
-            className="absolute"
+            key={`footer-orbit-${i}`}
+            className={`absolute w-[600px] h-[600px] border rounded-full
+              ${isDarkMode ? 'border-cyan-400/10' : 'border-slate-900/5'}`}
             style={{
-              top: `${20 + Math.random() * 60}%`,
-              left: `${10 + Math.random() * 80}%`,
+              top: i % 2 === 0 ? '-10%' : 'auto',
+              bottom: i % 2 !== 0 ? '-10%' : 'auto',
+              left: i < 2 ? '-10%' : 'auto',
+              right: i >= 2 ? '-10%' : 'auto',
+              rotateX: 60,
+              rotateY: 30
             }}
-            animate={{
-              scale: [0, 1, 0],
-              opacity: [0, 0.6, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 0.5,
-            }}
+            animate={{ rotateZ: 360 }}
+            transition={{ duration: 20 + i * 10, repeat: Infinity, ease: "linear" }}
           >
-            <Sparkles size={12} className="text-cyan-400/40" />
+            <div className={`absolute top-0 left-1/2 w-4 h-4 rounded-full blur-[2px] shadow-[0_0_20px_#22d3ee]
+              ${isDarkMode ? 'bg-cyan-400' : 'bg-slate-900'}`} />
           </motion.div>
         ))}
       </div>
 
+      {/* Main Glass Card Container */}
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          {/* Brand Section */}
-          <div className="md:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-3 mb-6"
-            >
-              {/* Animated Logo */}
+        <div className={`p-8 md:p-12 rounded-[2.5rem] backdrop-blur-2xl border transition-all duration-500
+          ${isDarkMode
+            ? 'bg-white/5 border-white/10 shadow-2xl shadow-black/40'
+            : 'bg-white/60 border-slate-200 shadow-xl shadow-slate-200/50'}`}>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            {/* Brand Section */}
+            <div className="md:col-span-2 space-y-8">
               <motion.div
-                className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 via-teal-500 to-emerald-500 flex items-center justify-center shadow-2xl shadow-cyan-500/30"
-                animate={{
-                  rotate: [0, 3, -3, 0],
-                }}
-                transition={{ duration: 4, repeat: Infinity }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-4"
               >
-                <div className="absolute inset-0 rounded-2xl opacity-30 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTEwIDBMMTIgOEwyMCAxMEwxMiAxMkwxMCAyMEw4IDEyTDAgMTBMOCA4eiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjUpIi8+PC9zdmc+')]" />
-                <span className="font-black text-2xl text-white drop-shadow-lg">H</span>
+                <img
+                  src="/logo.png"
+                  alt="HMR Fragrance"
+                  className={`h-16 w-auto object-contain transition-all duration-300
+                    ${isDarkMode ? 'brightness-0 invert' : ''}`}
+                />
               </motion.div>
-              <div>
-                <span className="font-black text-2xl tracking-tight">HMR</span>
-                <span className="block text-[10px] uppercase tracking-[0.2em] text-cyan-400">Fragrance</span>
-              </div>
-            </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-gray-400 max-w-sm mb-8 leading-relaxed"
-            >
-              Premium Attar collection by HMR HAMID. We keep the old ways of making perfumes alive with a modern touch. Pure, Natural, and Timeless.
-            </motion.p>
+              <p className={`max-w-md text-lg leading-relaxed
+                ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                Preserving the timeless art of perfumery through rare botanical essences and modern craftsmanship. Hand-crafted in Thakurgaon for those who seek the extraordinary.
+              </p>
 
-            {/* Social Media Links with Animation */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="flex gap-3"
-            >
-              {[
-                { icon: <Facebook size={20} />, href: '#', label: 'Facebook', color: 'hover:bg-blue-600' },
-                { icon: <Instagram size={20} />, href: '#', label: 'Instagram', color: 'hover:bg-pink-600' },
-                { icon: <MessageCircle size={20} />, href: '#', label: 'WhatsApp', color: 'hover:bg-green-600' },
-              ].map((social, idx) => (
-                <motion.a
-                  key={idx}
-                  href={social.href}
-                  whileHover={{ scale: 1.1, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`p-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/10 ${social.color} transition-all duration-300 shadow-lg shadow-black/20`}
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            <h4 className="font-bold text-lg mb-6 uppercase tracking-widest text-cyan-400">Quick Links</h4>
-            <ul className="space-y-4">
-              {[
-                { name: 'Home', path: '/' },
-                { name: 'Products', path: '/products' },
-                { name: 'About Us', path: '/about' },
-                { name: 'Contact', path: '/contact' },
-              ].map((link, idx) => (
-                <motion.li
-                  key={idx}
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Link
-                    to={link.path}
-                    className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group"
+              {/* Social Links */}
+              <div className="flex gap-4">
+                {[
+                  { icon: <Facebook size={20} />, href: '#', bg: 'hover:bg-[#1877F2]' },
+                  { icon: <Instagram size={20} />, href: '#', bg: 'hover:bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]' },
+                  { icon: <MessageCircle size={20} />, href: '#', bg: 'hover:bg-[#25D366]' },
+                ].map((social, idx) => (
+                  <motion.a
+                    key={idx}
+                    href={social.href}
+                    whileHover={{ y: -5, scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`p-3.5 rounded-2xl border transition-all duration-300
+                      ${isDarkMode
+                        ? 'bg-white/5 border-white/10 text-white hover:text-white'
+                        : 'bg-slate-100 border-slate-200 text-slate-600 hover:text-white'} ${social.bg}`}
                   >
-                    <span className="w-0 h-0.5 bg-cyan-400 group-hover:w-4 transition-all duration-300" />
-                    {link.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+                    {social.icon}
+                  </motion.a>
+                ))}
+              </div>
+            </div>
 
-          {/* Location & Contact */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <h4 className="font-bold text-lg mb-6 uppercase tracking-widest text-cyan-400">Contact</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-gray-400">
-                <MapPin size={18} className="text-cyan-400 mt-0.5 flex-shrink-0" />
-                <span>Thakurgaon, Bangladesh</span>
-              </li>
-              <li className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors cursor-pointer">
-                <Phone size={18} className="text-cyan-400 flex-shrink-0" />
-                <span>WhatsApp Available</span>
-              </li>
-              <li className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors cursor-pointer">
-                <Mail size={18} className="text-cyan-400 flex-shrink-0" />
-                <span>Contact Us</span>
-              </li>
-            </ul>
-          </motion.div>
-        </div>
+            {/* Navigation Links */}
+            <div>
+              <h4 className={`text-sm font-black uppercase tracking-[0.2em] mb-8
+                ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Explore</h4>
+              <ul className="space-y-4">
+                {[
+                  { name: 'Home', path: '/' },
+                  { name: 'Collections', path: '/products' },
+                  { name: 'The Studio', path: '/about' },
+                  { name: 'Connect', path: '/contact' },
+                ].map((link, idx) => (
+                  <motion.li key={idx} whileHover={{ x: 5 }}>
+                    <Link
+                      to={link.path}
+                      className={`font-medium transition-colors border-b border-transparent hover:border-current
+                        ${isDarkMode ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-500 hover:text-slate-900'}`}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
 
-        {/* Bottom Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-500"
-        >
-          <p>&copy; {currentYear} HMR Fragrance. All rights reserved.</p>
+            {/* Full Location & Contact */}
+            <div className="space-y-6">
+              <h4 className={`text-sm font-black uppercase tracking-[0.2em] mb-8
+                ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>The Base</h4>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4 group">
+                  <div className={`p-2.5 rounded-xl border transition-colors
+                    ${isDarkMode ? 'bg-cyan-400/10 border-cyan-400/20 text-cyan-400 group-hover:bg-cyan-400 group-hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-600'}`}>
+                    <MapPin size={18} />
+                  </div>
+                  <div>
+                    <p className={`text-xs font-bold uppercase tracking-wider mb-1
+                      ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Location</p>
+                    <p className={`font-semibold
+                      ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                      HMR Fragrance Studio<br />
+                      Thakurgaon Sadar, Rangpur<br />
+                      Bangladesh
+                    </p>
+                  </div>
+                </div>
 
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                <div className="flex items-start gap-4 group">
+                  <div className={`p-2.5 rounded-xl border transition-colors
+                    ${isDarkMode ? 'bg-cyan-400/10 border-cyan-400/20 text-cyan-400 group-hover:bg-cyan-400 group-hover:text-white' : 'bg-slate-100 border-slate-200 text-slate-600'}`}>
+                    <Phone size={18} />
+                  </div>
+                  <div>
+                    <p className={`text-xs font-bold uppercase tracking-wider mb-1
+                      ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>WhatsApp</p>
+                    <p className={`font-semibold
+                      ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>+880 1234 567890</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <motion.p
-            className="flex items-center gap-2"
-            whileHover={{ scale: 1.02 }}
-          >
-            Designed by{' '}
-            <a
-              href="https://moudud-portfolio.netlify.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium flex items-center gap-1"
+          {/* Bottom Bar */}
+          <div className={`pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-8
+            ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+            <div className={`flex flex-col items-center md:items-start gap-2
+              ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+              <p className="font-medium">&copy; {currentYear} HMR Fragrance. Reserved</p>
+              <div className="flex gap-6 text-xs font-bold uppercase tracking-widest">
+                <a href="#" className="hover:text-cyan-400 transition-colors">Privacy</a>
+                <a href="#" className="hover:text-cyan-400 transition-colors">Terms</a>
+              </div>
+            </div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className={`flex items-center gap-3 px-6 py-3 rounded-2xl border transition-all
+                ${isDarkMode
+                  ? 'bg-white/5 border-white/10 hover:border-cyan-400/50 group'
+                  : 'bg-slate-100 border-slate-200 hover:border-slate-400'}`}
             >
-              Sam
-              <ExternalLink size={12} />
-            </a>
-          </motion.p>
-        </motion.div>
+              <span className={`text-xs font-bold uppercase tracking-widest
+                ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Crafted by</span>
+              <a
+                href="https://moudud-portfolio.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`font-black tracking-tighter text-lg flex items-center gap-1
+                  ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              >
+                Sam
+                <Sparkles size={14} className="text-cyan-500 animate-pulse" />
+              </a>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </footer>
   );

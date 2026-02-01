@@ -113,9 +113,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
       </Routes>
 
-      <Footer />
+      <Footer isDarkMode={isDarkMode} />
 
       <Cart
+        isDarkMode={isDarkMode}
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}

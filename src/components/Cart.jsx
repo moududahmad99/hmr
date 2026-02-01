@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 
-const Cart = ({ isOpen, onClose, items, total, onRemove, onUpdateQty, onCheckout }) => {
+const Cart = ({ isDarkMode, isOpen, onClose, items, total, onRemove, onUpdateQty, onCheckout }) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -21,19 +21,51 @@ const Cart = ({ isOpen, onClose, items, total, onRemove, onUpdateQty, onCheckout
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 400 }}
             className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-brand-mist dark:bg-brand-midnight 
-                      shadow-2xl z-[70] flex flex-col"
+                      shadow-2xl z-[70] flex flex-col overflow-hidden"
           >
-            <div className="p-6 border-b border-brand-slate/20 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <ShoppingBag className="text-brand-primary dark:text-brand-slate" />
-                <h2 className="text-xl font-bold dark:text-brand-parchment">Shopping Bag</h2>
-                <span className="bg-brand-primary/10 text-brand-primary dark:bg-brand-storm dark:text-brand-slate 
-                                px-2 py-0.5 rounded-full text-xs font-bold">
-                  {items.length}
-                </span>
+            {/* 3D Background - Round Orbit Type Design */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+              {[...Array(4)].map((_, i) => (
+                <motion.div
+                  key={`cart-orbit-${i}`}
+                  className="absolute w-[400px] h-[400px] border border-cyan-400/30 rounded-full"
+                  style={{
+                    top: `${(i * 30) % 100}%`,
+                    left: `${(i * 40) % 100 - 20}%`,
+                    rotateX: 60,
+                    rotateY: 30
+                  }}
+                  animate={{ rotateZ: 360 }}
+                  transition={{
+                    duration: 15 + i * 5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  <div className="absolute top-0 left-1/2 w-4 h-4 bg-cyan-400 rounded-full blur-[2px] shadow-[0_0_20px_#22d3ee]" />
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="relative p-6 border-b border-brand-slate/20 flex items-center justify-between">
+              <div className="flex items-center gap-4 flex-1">
+                <img
+                  src="/logo.png"
+                  alt="HMR Fragrance"
+                  className={`h-20 w-auto object-contain flex-shrink-0 transition-all duration-300
+                    ${isDarkMode ? 'brightness-0 invert' : ''}`}
+                />
+                <div className="flex items-center gap-2 whitespace-nowrap">
+                  <ShoppingBag className="text-brand-primary dark:text-brand-slate flex-shrink-0" size={24} />
+                  <h2 className="text-xl font-bold dark:text-brand-parchment">Cart</h2>
+                  <span className="bg-brand-primary/10 text-brand-primary dark:bg-brand-storm dark:text-brand-slate 
+                                px-3 py-1.5 rounded-full text-sm font-bold">
+                    {items.length}
+                  </span>
+                </div>
               </div>
-              <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full dark:hover:bg-white/5 transition-colors">
-                <X />
+              <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full dark:hover:bg-white/5 transition-colors flex-shrink-0">
+                <X size={24} />
               </button>
             </div>
 

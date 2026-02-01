@@ -26,81 +26,19 @@ const Navbar = ({ isDarkMode, toggleDarkMode, cartCount, onCartClick }) => {
     <motion.div
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="flex items-center gap-3 relative"
+      className="flex items-center justify-center relative"
     >
-      {/* Logo Container with Glow */}
       <div className="relative">
-        {/* Animated Ring */}
-        <motion.div
-          className="absolute -inset-1 rounded-full opacity-60 blur-md bg-gradient-to-r from-cyan-400 via-teal-300 to-cyan-400"
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.4, 0.7, 0.4],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Sparkle Effects */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute"
-            style={{
-              top: [-4, 24, 8][i],
-              left: [32, -6, 42][i],
-            }}
-            animate={{
-              scale: [0, 1, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              delay: i * 0.6,
-            }}
-          >
-            <Sparkles size={10} className="text-cyan-400" />
-          </motion.div>
-        ))}
-
         {/* Logo Image */}
         <motion.img
           src="/logo.png"
           alt="HMR Fragrance"
-          className="relative w-12 h-12 md:w-14 md:h-14 rounded-full object-contain drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"
-          animate={{
-            rotate: [0, 2, -2, 0],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          className={`relative h-12 md:h-16 w-auto object-contain transition-all duration-300
+            ${isDarkMode ? 'brightness-0 invert' : ''}`}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         />
-      </div>
-
-      {/* Text */}
-      <div className="flex flex-col -gap-1">
-        <motion.span
-          className={`font-black text-xl tracking-tight leading-none transition-colors duration-300
-            ${isDarkMode ? 'text-white' : 'text-slate-800'}`}
-          animate={{
-            textShadow: isDarkMode
-              ? ['0 0 10px rgba(34,211,238,0)', '0 0 20px rgba(34,211,238,0.3)', '0 0 10px rgba(34,211,238,0)']
-              : 'none',
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          HMR
-        </motion.span>
-        <span className={`text-[9px] uppercase tracking-[0.2em] font-semibold
-          ${isDarkMode ? 'text-cyan-400' : 'text-slate-500'}`}>
-          Fragrance
-        </span>
       </div>
     </motion.div>
   );
@@ -186,7 +124,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode, cartCount, onCartClick }) => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(!isOpen)}
               className={`md:hidden p-3 rounded-2xl transition-colors
-                ${isDarkMode ? 'bg-white/10 hover:bg-white/20' : 'bg-slate-100 hover:bg-slate-200'}`}
+                ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'}`}
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -210,12 +148,46 @@ const Navbar = ({ isDarkMode, toggleDarkMode, cartCount, onCartClick }) => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className={`fixed inset-0 z-[60] p-6 pt-32 flex flex-col gap-8
+              className={`fixed inset-0 z-[60] p-6 pt-24 flex flex-col gap-8 overflow-hidden
                 ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-800'}`}
             >
+              {/* 3D Background - Round Orbit Type Design */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={`nav-orbit-${i}`}
+                    className="absolute w-[500px] h-[500px] border border-cyan-400/20 rounded-full"
+                    style={{
+                      top: `${(i * 25) % 100 - 10}%`,
+                      left: `${(i * 35) % 100 - 20}%`,
+                      rotateX: 60,
+                      rotateY: 30
+                    }}
+                    animate={{ rotateZ: 360 }}
+                    transition={{
+                      duration: 20 + i * 5,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  >
+                    <div className="absolute top-0 left-1/2 w-4 h-4 bg-cyan-400 rounded-full blur-[2px] shadow-[0_0_20px_#22d3ee]" />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Logo at top */}
+              <div className="flex items-center justify-center mb-4 relative z-10">
+                <img
+                  src="/logo.png"
+                  alt="HMR Fragrance"
+                  className={`h-16 w-auto object-contain transition-all duration-300
+                    ${isDarkMode ? 'brightness-0 invert' : ''}`}
+                />
+              </div>
+
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-8 right-8 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                className="absolute top-8 right-8 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
               >
                 <X size={32} />
               </button>
@@ -226,6 +198,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode, cartCount, onCartClick }) => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.1 }}
+                  className="relative z-10"
                 >
                   <Link
                     to={link.path}
