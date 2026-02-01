@@ -276,12 +276,12 @@ const Home = ({ addToCart }) => {
             style={{ y: yParallax }}
           >
             {/* Floating Info Cards - Fixed outside of the rotation */}
-            <div className="absolute top-0 -right-6 md:-top-10 md:-right-24 z-30 flex flex-col gap-4">
+            <div className="absolute top-0 right-12 md:-top-10 md:right-16 z-30 flex flex-col gap-4">
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
-                className="bg-slate-900/60 dark:bg-white/10 backdrop-blur-xl border-l-4 border-cyan-400 p-3 md:p-4 rounded-l-2xl shadow-2xl"
+                className="bg-slate-900/60 dark:bg-white/10 backdrop-blur-xl border-l-4 border-cyan-400 p-3 md:p-4 rounded-2xl shadow-2xl"
               >
                 <p className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] text-cyan-400 font-black mb-1">Authentic</p>
                 <p className="text-white text-[11px] md:text-sm font-bold tracking-wider leading-tight">Premium<br />Distillation</p>
@@ -291,7 +291,7 @@ const Home = ({ addToCart }) => {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1, duration: 0.6 }}
-                className="bg-slate-900/10 dark:bg-white/10 backdrop-blur-md border border-slate-900/10 dark:border-white/10 p-2 md:p-3 px-4 md:px-6 rounded-l-xl flex items-center gap-2 md:gap-3 self-end shadow-xl"
+                className="bg-slate-900/10 dark:bg-white/10 backdrop-blur-md border border-slate-900/10 dark:border-white/10 p-2 md:p-3 px-4 md:px-6 rounded-xl flex items-center gap-2 md:gap-3 self-end shadow-xl"
               >
                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-cyan-400 animate-pulse" />
                 <span className="text-slate-900 dark:text-white text-[9px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap">Long Lasting</span>
@@ -300,7 +300,7 @@ const Home = ({ addToCart }) => {
 
             {/* Spinning Product Mockup */}
             <motion.div
-              className="relative w-96 md:w-[700px] h-auto aspect-[3/4] flex items-center justify-center z-10"
+              className="relative w-80 md:w-[700px] h-auto aspect-[3/4] flex items-center justify-center z-10 -ml-8 md:ml-0"
               style={{ rotateY: bottleRotate }}
             >
               <img
@@ -323,29 +323,31 @@ const Home = ({ addToCart }) => {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </div >
 
         {/* Featured Section with Glass Cards */}
-        <div className="mt-32 pb-20 relative overflow-hidden">
+        < div className="mt-32 pb-20 relative overflow-hidden" >
           {/* 3D Background - Round Orbit Type Design */}
-          <div className="absolute inset-0 pointer-events-none opacity-20">
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={`section-orbit-${i}`}
-                className="absolute w-[600px] h-[600px] border border-cyan-400/20 rounded-full"
-                style={{
-                  top: `${Math.random() * 80}%`,
-                  left: `${Math.random() * 80}%`,
-                  rotateX: 60,
-                  rotateY: 30
-                }}
-                animate={{ rotateZ: 360 }}
-                transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="absolute top-0 left-1/2 w-4 h-4 bg-cyan-400 rounded-full blur-[2px] shadow-[0_0_20px_#22d3ee]" />
-              </motion.div>
-            ))}
-          </div>
+          < div className="absolute inset-0 pointer-events-none opacity-20" >
+            {
+              [...Array(5)].map((_, i) => (
+                <motion.div
+                  key={`section-orbit-${i}`}
+                  className="absolute w-[600px] h-[600px] border border-cyan-400/20 rounded-full"
+                  style={{
+                    top: `${Math.random() * 80}%`,
+                    left: `${Math.random() * 80}%`,
+                    rotateX: 60,
+                    rotateY: 30
+                  }}
+                  animate={{ rotateZ: 360 }}
+                  transition={{ duration: 15 + i * 5, repeat: Infinity, ease: "linear" }}
+                >
+                  <div className="absolute top-0 left-1/2 w-4 h-4 bg-cyan-400 rounded-full blur-[2px] shadow-[0_0_20px_#22d3ee]" />
+                </motion.div>
+              ))
+            }
+          </div >
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -408,9 +410,9 @@ const Home = ({ addToCart }) => {
               );
             })}
           </div>
-        </div>
-      </div>
-    </motion.div>
+        </div >
+      </div >
+    </motion.div >
   );
 };
 
